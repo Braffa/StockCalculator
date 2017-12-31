@@ -22,6 +22,7 @@ import com.nutmeg.transactions.handlers.input.LineHandler;
 import com.nutmeg.transactions.handlers.input.PriceHandler;
 import com.nutmeg.transactions.handlers.input.TxnTypeHandler;
 import com.nutmeg.transactions.handlers.input.UnitHandler;
+import com.nutmeg.transactions.handlers.txn.BalanceHandler;
 import com.nutmeg.transactions.handlers.txn.BotTxnHandler;
 import com.nutmeg.transactions.handlers.txn.DepTxnHandler;
 import com.nutmeg.transactions.handlers.txn.DivTxnHandler;
@@ -55,6 +56,7 @@ public class ClientHoldingCalculator implements HoldingCalculator {
 		ITxnHandler divTxnHandler = new DivTxnHandler();
 		ITxnHandler depTxnHandler = new DepTxnHandler();
 		ITxnHandler wdrTxnHandler = new WdrTxnHandler();
+		ITxnHandler balanceHandler = new BalanceHandler();
 
 		botTxnHandler.setHandler(sldTxnHandler);
 		sldTxnHandler.setHandler(divTxnHandler);
@@ -70,6 +72,7 @@ public class ClientHoldingCalculator implements HoldingCalculator {
 				if (transaction.isValid()) {
 					if (!transaction.getDate().isAfter(date)) {
 						botTxnHandler.processHere(holdingMap, transaction);
+						balanceHandler.processHere(holdingMap, transaction);
 					}
 				}
 			}
