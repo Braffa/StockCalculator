@@ -37,7 +37,6 @@ public class StockCalculator {
 			System.out.println(entry.getKey());
 			for (Holding holding : entry.getValue()) {
 				System.out.println("   " + holding.getAsset() + " " + holding.getHoldingAsString());
-
 			}
 		}
 	}

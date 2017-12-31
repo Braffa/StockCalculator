@@ -23,7 +23,7 @@ public class ClientHoldingCalculatorTest {
 
 	@Test
 	public void testValidInputFile() {
-		
+
 		File transactionFile = new File(
 				"/Users/dave/workspaces/eclipseNeon/StockCalculator/src/test/resources/example.csv");
 
@@ -31,32 +31,25 @@ public class ClientHoldingCalculatorTest {
 
 		Map<String, List<Holding>> transactionMap = clientHoldingCalculator.calculateHoldings(transactionFile, date);
 
-		for (Map.Entry<String, List<Holding>> entry : transactionMap.entrySet()) {
-			System.out.println(entry.getKey());
-			for (Holding holding : entry.getValue()) {
-				System.out.println("   " + holding.getAsset() + " " + holding.getHoldingAsString());
-
-			}
-		}
 		List<Holding> ListOfHoldings = transactionMap.get("NEAA0000");
 		assertTrue("NEAA0000 Holdings should not be null ", ListOfHoldings != null);
 
 		Holding holding = ListOfHoldings.get(0);
-		assertEquals("asset should be CASH ", "CASH", holding.getAsset());
-		assertEquals("CASH holding should be 17.6848", "17.6848", holding.getHoldingAsString());
-
-		holding = ListOfHoldings.get(1);
 		assertEquals("asset should be GILS ", "GILS", holding.getAsset());
 		assertEquals("GILS holding should be 10.5120", "10.5120", holding.getHoldingAsString());
 
-		holding = ListOfHoldings.get(2);
-		assertEquals("asset should be VUKE ", "VUKE", holding.getAsset());
-		assertEquals("VUKE holding should be 20.0000", "20.0000", holding.getHoldingAsString());
+		holding = ListOfHoldings.get(1);
+		assertEquals("asset should be CASH ", "CASH", holding.getAsset());
+		assertEquals("CASH holding should be 17.6848", "17.6848", holding.getHoldingAsString());
 
-		holding = ListOfHoldings.get(3);
+		holding = ListOfHoldings.get(2);
 		assertEquals("asset should be VUSA ", "VUSA", holding.getAsset());
 		assertEquals("VUSA holding should be 10.0000", "10.0000", holding.getHoldingAsString());
 
+		holding = ListOfHoldings.get(3);
+		assertEquals("asset should be VUKE ", "VUKE", holding.getAsset());
+		assertEquals("VUKE holding should be 20.0000", "20.0000", holding.getHoldingAsString());
+		
 		ListOfHoldings = transactionMap.get("NEAB0001");
 		assertTrue("NEAB0001 Holdings should not be null ", ListOfHoldings != null);
 
@@ -67,8 +60,8 @@ public class ClientHoldingCalculatorTest {
 
 	@Test
 	/*
-	 * The holding GILS has been set with an invalid input record and
-	 * therefore should be ignored
+	 * The holding GILS has been set with an invalid input record and therefore
+	 * should be ignored
 	 */
 	public void testInvalidInputRecord() {
 		File transactionFile = new File(
@@ -86,12 +79,12 @@ public class ClientHoldingCalculatorTest {
 		assertEquals("CASH holding should be 52.7424", "52.7424", holding.getHoldingAsString());
 
 		holding = ListOfHoldings.get(1);
-		assertEquals("asset should be VUKE ", "VUKE", holding.getAsset());
-		assertEquals("VUKE holding should be 20.0000", "20.0000", holding.getHoldingAsString());
-
-		holding = ListOfHoldings.get(2);
 		assertEquals("asset should be VUSA ", "VUSA", holding.getAsset());
 		assertEquals("VUSA holding should be 10.0000", "10.0000", holding.getHoldingAsString());
+
+		holding = ListOfHoldings.get(2);
+		assertEquals("asset should be VUKE ", "VUKE", holding.getAsset());
+		assertEquals("VUKE holding should be 20.0000", "20.0000", holding.getHoldingAsString());
 
 		ListOfHoldings = transactionMap.get("NEAB0001");
 		assertTrue("NEAB0001 Holdings should not be null ", ListOfHoldings != null);
@@ -101,6 +94,7 @@ public class ClientHoldingCalculatorTest {
 		assertEquals("CASH holding should be 10000.0000", "10000.0000", holding.getHoldingAsString());
 
 	}
+
 	@Test
 	/*
 	 * The holding GILS has been set with an invalid account number and
@@ -122,12 +116,12 @@ public class ClientHoldingCalculatorTest {
 		assertEquals("CASH holding should be 52.7424", "52.7424", holding.getHoldingAsString());
 
 		holding = ListOfHoldings.get(1);
-		assertEquals("asset should be VUKE ", "VUKE", holding.getAsset());
-		assertEquals("VUKE holding should be 20.0000", "20.0000", holding.getHoldingAsString());
-
-		holding = ListOfHoldings.get(2);
 		assertEquals("asset should be VUSA ", "VUSA", holding.getAsset());
 		assertEquals("VUSA holding should be 10.0000", "10.0000", holding.getHoldingAsString());
+		
+		holding = ListOfHoldings.get(2);
+		assertEquals("asset should be VUKE ", "VUKE", holding.getAsset());
+		assertEquals("VUKE holding should be 20.0000", "20.0000", holding.getHoldingAsString());
 
 		ListOfHoldings = transactionMap.get("NEAB0001");
 		assertTrue("NEAB0001 Holdings should not be null ", ListOfHoldings != null);
@@ -137,6 +131,7 @@ public class ClientHoldingCalculatorTest {
 		assertEquals("CASH holding should be 10000.0000", "10000.0000", holding.getHoldingAsString());
 
 	}
+
 	@Test
 	/*
 	 * The holding GILS has been set with an invalid date number and therefore
@@ -157,13 +152,14 @@ public class ClientHoldingCalculatorTest {
 		assertEquals("asset should be CASH ", "CASH", holding.getAsset());
 		assertEquals("CASH holding should be 52.7424", "52.7424", holding.getHoldingAsString());
 
-		holding = ListOfHoldings.get(1);
-		assertEquals("asset should be VUKE ", "VUKE", holding.getAsset());
-		assertEquals("VUKE holding should be 20.0000", "20.0000", holding.getHoldingAsString());
 
-		holding = ListOfHoldings.get(2);
+		holding = ListOfHoldings.get(1);
 		assertEquals("asset should be VUSA ", "VUSA", holding.getAsset());
 		assertEquals("VUSA holding should be 10.0000", "10.0000", holding.getHoldingAsString());
+		
+		holding = ListOfHoldings.get(2);
+		assertEquals("asset should be VUKE ", "VUKE", holding.getAsset());
+		assertEquals("VUKE holding should be 20.0000", "20.0000", holding.getHoldingAsString());
 
 		ListOfHoldings = transactionMap.get("NEAB0001");
 		assertTrue("NEAB0001 Holdings should not be null ", ListOfHoldings != null);
@@ -195,12 +191,12 @@ public class ClientHoldingCalculatorTest {
 		assertEquals("CASH holding should be 52.7424", "52.7424", holding.getHoldingAsString());
 
 		holding = ListOfHoldings.get(1);
-		assertEquals("asset should be VUKE ", "VUKE", holding.getAsset());
-		assertEquals("VUKE holding should be 20.0000", "20.0000", holding.getHoldingAsString());
-
-		holding = ListOfHoldings.get(2);
 		assertEquals("asset should be VUSA ", "VUSA", holding.getAsset());
 		assertEquals("VUSA holding should be 10.0000", "10.0000", holding.getHoldingAsString());
+		
+		holding = ListOfHoldings.get(2);
+		assertEquals("asset should be VUKE ", "VUKE", holding.getAsset());
+		assertEquals("VUKE holding should be 20.0000", "20.0000", holding.getHoldingAsString());
 
 		ListOfHoldings = transactionMap.get("NEAB0001");
 		assertTrue("NEAB0001 Holdings should not be null ", ListOfHoldings != null);
@@ -231,12 +227,12 @@ public class ClientHoldingCalculatorTest {
 		assertEquals("CASH holding should be 52.7424", "52.7424", holding.getHoldingAsString());
 
 		holding = ListOfHoldings.get(1);
-		assertEquals("asset should be VUKE ", "VUKE", holding.getAsset());
-		assertEquals("VUKE holding should be 20.0000", "20.0000", holding.getHoldingAsString());
-
-		holding = ListOfHoldings.get(2);
 		assertEquals("asset should be VUSA ", "VUSA", holding.getAsset());
 		assertEquals("VUSA holding should be 10.0000", "10.0000", holding.getHoldingAsString());
+		
+		holding = ListOfHoldings.get(2);
+		assertEquals("asset should be VUKE ", "VUKE", holding.getAsset());
+		assertEquals("VUKE holding should be 20.0000", "20.0000", holding.getHoldingAsString());
 
 		ListOfHoldings = transactionMap.get("NEAB0001");
 		assertTrue("NEAB0001 Holdings should not be null ", ListOfHoldings != null);
@@ -267,12 +263,12 @@ public class ClientHoldingCalculatorTest {
 		assertEquals("CASH holding should be 52.7424", "52.7424", holding.getHoldingAsString());
 
 		holding = ListOfHoldings.get(1);
-		assertEquals("asset should be VUKE ", "VUKE", holding.getAsset());
-		assertEquals("VUKE holding should be 20.0000", "20.0000", holding.getHoldingAsString());
-
-		holding = ListOfHoldings.get(2);
 		assertEquals("asset should be VUSA ", "VUSA", holding.getAsset());
 		assertEquals("VUSA holding should be 10.0000", "10.0000", holding.getHoldingAsString());
+		
+		holding = ListOfHoldings.get(2);
+		assertEquals("asset should be VUKE ", "VUKE", holding.getAsset());
+		assertEquals("VUKE holding should be 20.0000", "20.0000", holding.getHoldingAsString());
 
 		ListOfHoldings = transactionMap.get("NEAB0001");
 		assertTrue("NEAB0001 Holdings should not be null ", ListOfHoldings != null);
@@ -304,12 +300,12 @@ public class ClientHoldingCalculatorTest {
 		assertEquals("CASH holding should be 52.7424", "52.7424", holding.getHoldingAsString());
 
 		holding = ListOfHoldings.get(1);
-		assertEquals("asset should be VUKE ", "VUKE", holding.getAsset());
-		assertEquals("VUKE holding should be 20.0000", "20.0000", holding.getHoldingAsString());
-
-		holding = ListOfHoldings.get(2);
 		assertEquals("asset should be VUSA ", "VUSA", holding.getAsset());
 		assertEquals("VUSA holding should be 10.0000", "10.0000", holding.getHoldingAsString());
+
+		holding = ListOfHoldings.get(2);
+		assertEquals("asset should be VUKE ", "VUKE", holding.getAsset());
+		assertEquals("VUKE holding should be 20.0000", "20.0000", holding.getHoldingAsString());
 
 		ListOfHoldings = transactionMap.get("NEAB0001");
 		assertTrue("NEAB0001 Holdings should not be null ", ListOfHoldings != null);

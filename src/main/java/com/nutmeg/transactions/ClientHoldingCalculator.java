@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -12,6 +13,7 @@ import java.util.TreeMap;
 
 import com.nutmeg.transactions.beans.Holding;
 import com.nutmeg.transactions.beans.Transaction;
+import com.nutmeg.transactions.beans.TransactionKey;
 import com.nutmeg.transactions.handlers.input.AccountHandler;
 import com.nutmeg.transactions.handlers.input.AssetHandler;
 import com.nutmeg.transactions.handlers.input.DateHandler;
@@ -31,7 +33,7 @@ public class ClientHoldingCalculator implements HoldingCalculator {
 
 	public Map<String, List<Holding>> calculateHoldings(File transactionFile, LocalDate date) {
 		Map<String, List<Holding>> transactionMap = new TreeMap<String, List<Holding>>();
-		Map<String, Holding> holdingMap = new TreeMap<String, Holding>();
+		Map<TransactionKey, Holding> holdingMap = new HashMap<TransactionKey, Holding>();
 
 		IInputHandler lineHandler = new LineHandler();
 		IInputHandler accountHandler = new AccountHandler();
@@ -79,10 +81,10 @@ public class ClientHoldingCalculator implements HoldingCalculator {
 		return transactionMap;
 	}
 
-	private void setUptransactionMap(Map<String, List<Holding>> transactionMap, Map<String, Holding> holdingMap) {
-		for (Map.Entry<String, Holding> entry : holdingMap.entrySet()) {
-			String holdingKey = entry.getKey();
-			String account = holdingKey.substring(0, 8);
+	private void setUptransactionMap(Map<String, List<Holding>> transactionMap, Map<TransactionKey, Holding> holdingMap) {
+		for (Map.Entry<TransactionKey, Holding> entry : holdingMap.entrySet()) {
+			TransactionKey holdingKey = entry.getKey();
+			String account = holdingKey.getAccount();
 			if (transactionMap.containsKey(account)) {
 				List<Holding> lOfHoldings = transactionMap.get(account);
 				lOfHoldings.add(entry.getValue());
@@ -94,34 +96,4 @@ public class ClientHoldingCalculator implements HoldingCalculator {
 		}
 	}
 
-/*	public static void main(String[] args) {
-		if (args.length == 0 || args.length != 2) {
-			System.out.println("please enter a file name and a date");
-			System.exit(0);
-		}
-		File transactionFile = new File(args[0]);
-		if (!transactionFile.exists()) {
-			System.out.println("File " + args[0] + " does not exist");
-			System.exit(0);
-		}
-		LocalDate date = LocalDate.now();
-		try {
-			DateTimeFormatter formatter = DateTimeFormatter.BASIC_ISO_DATE;
-			date = LocalDate.parse(args[1], formatter);
-		} catch (DateTimeParseException ex) {
-			System.out.println("Invalid date entered " + args[1]);
-			System.out.println("Please enter a date in format entered YYYYMMDD");
-			System.exit(0);
-		}
-		ClientHoldingCalculator clientHoldingCalculator = new ClientHoldingCalculator();
-		Map<String, List<Holding>> transactionMap = clientHoldingCalculator.calculateHoldings(transactionFile, date);
-		
-		for (Map.Entry<String, List<Holding>> entry : transactionMap.entrySet()) {
-			System.out.println(entry.getKey());
-			for (Holding holding : entry.getValue()) {
-				System.out.println("   " + holding.getAsset() + " " + holding.getHoldingAsString());
-
-			}
-		}
-	}*/
 }

@@ -6,10 +6,11 @@ import java.util.Map;
 import com.nutmeg.transactions.TxnTypeEnum;
 import com.nutmeg.transactions.beans.Holding;
 import com.nutmeg.transactions.beans.Transaction;
+import com.nutmeg.transactions.beans.TransactionKey;
 
 public class BotTxnHandler extends AbstractTxnHandler {
 
-	public void processHere(Map<String, Holding> holdingMap, Transaction transaction) {
+	public void processHere(Map<TransactionKey, Holding> holdingMap, Transaction transaction) {
 		if (transaction.getTxnType().equals(TxnTypeEnum.BOT.name())) {
 			process(holdingMap, transaction);
 		} else {
@@ -19,8 +20,8 @@ public class BotTxnHandler extends AbstractTxnHandler {
 		}
 	}
 
-	public void process(Map<String, Holding> holdingMap, Transaction transaction) {
-		String key = transaction.getAccount() + transaction.getAsset();
+	public void process(Map<TransactionKey, Holding> holdingMap, Transaction transaction) {
+		TransactionKey key = new TransactionKey(transaction.getAccount(), transaction.getAsset());
 		BigDecimal units = transaction.getUnits();
 		if (holdingMap.containsKey(key)) {
 			Holding holding = holdingMap.get(key);
@@ -30,7 +31,8 @@ public class BotTxnHandler extends AbstractTxnHandler {
 			holdingMap.put(key, holding);
 		}
 		BigDecimal bot = transaction.getPrice().multiply(transaction.getUnits());
-		Holding cashHolding = holdingMap.get(transaction.getAccount() + "CASH");
+		TransactionKey cashKey = new TransactionKey(transaction.getAccount(), "CASH");
+		Holding cashHolding = holdingMap.get(cashKey);
 		cashHolding.setHoldings(subtractHoldingAmount(bot, cashHolding.getHolding()));
 
 	}

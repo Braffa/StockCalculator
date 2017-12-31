@@ -9,7 +9,7 @@ public abstract class AbstractTxnHandler implements ITxnHandler {
 	public void setHandler(ITxnHandler handler) {
 		this.handler = handler;
 	}
-	
+
 	protected double subtractHoldingAmount(BigDecimal holdingAmount, double cashAmount) {
 		String cashAsString = Double.toString(cashAmount);
 		BigDecimal cashBigDecimal = new BigDecimal(cashAsString);
